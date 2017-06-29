@@ -1,9 +1,27 @@
 <?php
-include 'config.php';
+define('CMS',false);
 
+include 'config/config.php';
+include MODEL_PATH.'mysqliDB.php';
+include CONTROLLER_PATH.'page.php';
 
-// On Submit of the form..
-if(isset($_POST['submit'])){}
+$db = new MysqliDb(DBHOST,DBUSER,DBPASS,DBNAME);
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+}
+$URI = htmlspecialchars($_SERVER['REQUEST_URI']);
+$simpleURL = explode('/somms',$URI);
+$url = array($simpleURL);
+$URI = $url[0][1];
+$dbConnect = $db->connect();
+$page = new Page($db);
+$res = $page->getPage($URI);
+if(isset($res)){
+	$page_file = $res[0]['page_file'];
+}else{
+	"page Not found";
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,10 +57,7 @@ if(isset($_POST['submit'])){}
 		<div class="container">
 			<div class="row">
 				
-				<div class="col-md-12">
-					<h1>Cetifiedsomms</h1>
-					<p>This is a Landing Page</p>				
-				</div>
+			<?php include VIEW_PATH.$page_file; ?>	
 			
 			</div>				
 		</div>
