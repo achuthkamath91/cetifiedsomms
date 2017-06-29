@@ -2,7 +2,7 @@
 define('DBHOST', 'localhost');
 define('DBUSER', 'root');
 define('DBPASS', '');
-define('DBNAME', 'moss');
+define('DBNAME', 'somms');
 if (!CMS) {
 	define('HOME_PATH', '/');
 	define('CONFIG_PATH', 'config/');
